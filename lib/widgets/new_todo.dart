@@ -1,14 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:todo_app/modal/todomodal.dart';
 
-class NewTodo extends StatefulWidget {
+class NewTodo extends StatelessWidget {
   const NewTodo({super.key});
 
-  @override
-  State<NewTodo> createState() => _NewTodoState();
-}
-
-class _NewTodoState extends State<NewTodo> {
   @override
   Widget build(BuildContext context) {
     final formKey = GlobalKey<FormState>();
@@ -20,6 +15,7 @@ class _NewTodoState extends State<NewTodo> {
         formKey.currentState!.save();
         Navigator.of(context).pop(
           Todo(
+            id: DateTime.now().toString(),
             title: enteredTitle,
             description: enteredDescription,
           ),

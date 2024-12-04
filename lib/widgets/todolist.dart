@@ -10,61 +10,75 @@ class TodoList extends StatefulWidget {
 }
 
 class _TodoListState extends State<TodoList> {
-  final List<Todo> _todoList = [
-    Todo(
-      title: 'title',
-      description: 'description',
-    ),
-  ];
-  void addTodo()async{
-    final newTodo=await Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (ctx) => const NewTodo(),
-          ),);
-    if(newTodo==null){
+  final List<Todo> _todoList = [];
+  void addTodo() async {
+    final newTodo = await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (ctx) => const NewTodo(),
+      ),
+    );
+    if (newTodo == null) {
       return;
     }
     setState(() {
       _todoList.add(newTodo);
     });
   }
+
+  void removeTodo(Todo removedTodo) {
+    setState(() {
+      _todoList.remove(removedTodo);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Todo List'),
+        title: const Text('Todo App'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(10),
-        child: ListView.builder(
-          itemCount: _todoList.length,
-          itemBuilder: (ctx, i) => Padding(
-            padding: const EdgeInsets.symmetric(vertical: 10),
-            child: Card(
-              elevation: 2,
-              color: const Color.fromARGB(255, 35, 40, 45),
-              child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      _todoList[i].title,
-                      style: const TextStyle(fontSize: 20, color: Colors.white),
+        child: _todoList.isEmpty
+            ? const Center(
+                child: Text('No Todos to Show', style: TextStyle(fontSize: 18)))
+            : ListView.builder(
+                itemCount: _todoList.length,
+                itemBuilder: (ctx, i) => Dismissible(
+                  key: ValueKey(_todoList[i].id),
+                  onDismissed: (direction) {
+                    removeTodo(_todoList[i]);
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 10),
+                    child: Card(
+                      elevation: 2,
+                      color: const Color.fromARGB(255, 35, 40, 45),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 20, vertical: 16),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              _todoList[i].title,
+                              style: const TextStyle(
+                                  fontSize: 20, color: Colors.white),
+                            ),
+                            const SizedBox(height: 5),
+                            Text(
+                              _todoList[i].description,
+                              style: const TextStyle(
+                                  fontSize: 16, color: Colors.grey),
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
-                    const SizedBox(height: 5),
-                    Text(
-                      _todoList[i].description,
-                      style: const TextStyle(fontSize: 16, color: Colors.grey),
-                    ),
-                  ],
+                  ),
                 ),
               ),
-            ),
-          ),
-        ),
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: const Color.fromARGB(255, 35, 40, 45),
