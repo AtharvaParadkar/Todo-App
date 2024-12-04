@@ -26,10 +26,40 @@ class _TodoListState extends State<TodoList> {
         padding: const EdgeInsets.all(10),
         child: ListView.builder(
           itemCount: _todoList.length,
-          itemBuilder: (ctx,i)=>ListTile(
-            title: Text(_todoList[i].title),
-            subtitle: Text(_todoList[i].description),
-            trailing: Text(_todoList[i].formattedDate),
+          itemBuilder: (ctx, i) => Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10),
+            child: Card(
+              elevation: 2,
+              color: const Color.fromARGB(255, 35, 40, 45),
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Text(
+                          _todoList[i].title,
+                          style: const TextStyle(
+                              fontSize: 20, color: Colors.white),
+                        ),
+                        const Spacer(),
+                        Text(
+                          _todoList[i].formattedDate,
+                          style: const TextStyle(
+                              fontSize: 18, color: Colors.white),
+                        ),
+                      ],
+                    ),
+                    Text(
+                      _todoList[i].description,
+                      style: const TextStyle(fontSize: 16, color: Colors.grey),
+                    ),
+                  ],
+                ),
+              ),
+            ),
           ),
         ),
       ),
