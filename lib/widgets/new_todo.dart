@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:todo_app/modal/todomodal.dart';
 
 class NewTodo extends StatefulWidget {
   const NewTodo({super.key});
@@ -11,7 +12,21 @@ class _NewTodoState extends State<NewTodo> {
   @override
   Widget build(BuildContext context) {
     final formKey = GlobalKey<FormState>();
-    
+    var enteredTitle = '';
+    var enteredDescription = '';
+
+    void saveTodo() {
+      if (formKey.currentState!.validate()) {
+        formKey.currentState!.save();
+        Navigator.of(context).pop(
+          Todo(
+            title: enteredTitle,
+            description: enteredDescription,
+          ),
+        );
+      }
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Add new Todo'),
@@ -27,15 +42,20 @@ class _NewTodoState extends State<NewTodo> {
                 decoration: const InputDecoration(
                   label: Text('Title'),
                 ),
-                onSaved: (value) {},
+                onSaved: (value) {
+                  enteredTitle = value!;
+                },
               ),
               TextFormField(
                 maxLength: 50,
                 decoration: const InputDecoration(
                   label: Text('Description'),
                 ),
-                onSaved: (value) {},
+                onSaved: (value) {
+                  enteredDescription = value!;
+                },
               ),
+              const SizedBox(height: 10),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
@@ -46,7 +66,7 @@ class _NewTodoState extends State<NewTodo> {
                     child: const Text('Reset'),
                   ),
                   ElevatedButton(
-                    onPressed: (){},
+                    onPressed: saveTodo,
                     child: const Text('Add Item'),
                   ),
                 ],

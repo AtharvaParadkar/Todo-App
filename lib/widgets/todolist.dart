@@ -16,6 +16,19 @@ class _TodoListState extends State<TodoList> {
       description: 'description',
     ),
   ];
+  void addTodo()async{
+    final newTodo=await Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (ctx) => const NewTodo(),
+          ),);
+    if(newTodo==null){
+      return;
+    }
+    setState(() {
+      _todoList.add(newTodo);
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -56,12 +69,7 @@ class _TodoListState extends State<TodoList> {
       floatingActionButton: FloatingActionButton(
         backgroundColor: const Color.fromARGB(255, 35, 40, 45),
         elevation: 1,
-        onPressed: () => Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (ctx) => const NewTodo(),
-          ),
-        ),
+        onPressed: addTodo,
         child: const Icon(Icons.add),
       ),
     );
