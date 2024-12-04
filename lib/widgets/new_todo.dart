@@ -7,8 +7,10 @@ class NewTodo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final formKey = GlobalKey<FormState>();
-    var enteredTitle = '';
-    var enteredDescription = '';
+    final titleController = TextEditingController(),
+        descriptionController = TextEditingController();
+    // var enteredTitle = '';
+    // var enteredDescription = '';
 
     void saveTodo() {
       if (formKey.currentState!.validate()) {
@@ -16,8 +18,8 @@ class NewTodo extends StatelessWidget {
         Navigator.of(context).pop(
           Todo(
             id: DateTime.now().toString(),
-            title: enteredTitle,
-            description: enteredDescription,
+            title: titleController.text,
+            description: descriptionController.text,
           ),
         );
       }
@@ -35,21 +37,23 @@ class NewTodo extends StatelessWidget {
             children: [
               TextFormField(
                 maxLength: 50,
+                controller: titleController,
                 decoration: const InputDecoration(
                   label: Text('Title'),
                 ),
-                onSaved: (value) {
-                  enteredTitle = value!;
-                },
+                // onSaved: (value) {
+                //   enteredTitle = value!;
+                // },
               ),
               TextFormField(
                 maxLength: 50,
+                controller: descriptionController,
                 decoration: const InputDecoration(
                   label: Text('Description'),
                 ),
-                onSaved: (value) {
-                  enteredDescription = value!;
-                },
+                // onSaved: (value) {
+                //   enteredDescription = value!;
+                // },
               ),
               const SizedBox(height: 10),
               Row(
