@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:todo_app/modal/todomodal.dart';
 
 class NewTodo extends StatefulWidget {
   const NewTodo({super.key});
@@ -13,24 +12,6 @@ class _NewTodoState extends State<NewTodo> {
   Widget build(BuildContext context) {
     final formKey = GlobalKey<FormState>();
     
-    DateTime? selectedDate;
-
-    void presentDatePicker() async {
-      final now = DateTime.now(),
-          lastDate = DateTime(now.year + 5, now.month, now.day);
-
-      final pickedDate = await showDatePicker(
-        context: context,
-        firstDate: now,
-        lastDate: lastDate,
-        initialDate: now,
-      );
-
-      setState(() {
-        selectedDate = pickedDate;
-      });
-    }
-
     return Scaffold(
       appBar: AppBar(
         title: const Text('Add new Todo'),
@@ -54,19 +35,6 @@ class _NewTodoState extends State<NewTodo> {
                   label: Text('Description'),
                 ),
                 onSaved: (value) {},
-              ),
-              Row(
-                children: [
-                  Text(
-                    selectedDate == null
-                        ? 'No Date Selected'
-                        : formatter.format(selectedDate!),
-                  ),
-                  IconButton(
-                    onPressed: presentDatePicker,
-                    icon: const Icon(Icons.calendar_month_outlined),
-                  ),
-                ],
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,

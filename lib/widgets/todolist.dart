@@ -14,7 +14,6 @@ class _TodoListState extends State<TodoList> {
     Todo(
       title: 'title',
       description: 'description',
-      date: DateTime.now(),
     ),
   ];
   @override
@@ -38,21 +37,11 @@ class _TodoListState extends State<TodoList> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Row(
-                      children: [
-                        Text(
-                          _todoList[i].title,
-                          style: const TextStyle(
-                              fontSize: 20, color: Colors.white),
-                        ),
-                        const Spacer(),
-                        Text(
-                          _todoList[i].formattedDate,
-                          style: const TextStyle(
-                              fontSize: 18, color: Colors.white),
-                        ),
-                      ],
+                    Text(
+                      _todoList[i].title,
+                      style: const TextStyle(fontSize: 20, color: Colors.white),
                     ),
+                    const SizedBox(height: 5),
                     Text(
                       _todoList[i].description,
                       style: const TextStyle(fontSize: 16, color: Colors.grey),
