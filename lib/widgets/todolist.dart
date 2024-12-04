@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:todo_app/modal/todomodal.dart';
+import 'package:todo_app/widgets/new_todo.dart';
 
 class TodoList extends StatefulWidget {
   const TodoList({super.key});
@@ -62,6 +63,17 @@ class _TodoListState extends State<TodoList> {
             ),
           ),
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: const Color.fromARGB(255, 35, 40, 45),
+        elevation: 1,
+        onPressed: () => Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (ctx) => const NewTodo(),
+          ),
+        ),
+        child: const Icon(Icons.add),
       ),
     );
   }
