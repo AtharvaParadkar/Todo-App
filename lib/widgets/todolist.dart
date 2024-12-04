@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:todo_app/modal/todomodal.dart';
+import 'package:provider/provider.dart';
+import 'package:todo_app/notifier/todo_notifier.dart';
 import 'package:todo_app/widgets/new_todo.dart';
 
 class TodoList extends StatefulWidget {
@@ -10,28 +11,6 @@ class TodoList extends StatefulWidget {
 }
 
 class _TodoListState extends State<TodoList> {
-  final List<Todo> _todoList = [];
-  void addTodo() async {
-    final newTodo = await Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (ctx) => const NewTodo(),
-      ),
-    );
-    if (newTodo == null) {
-      return;
-    }
-    setState(() {
-      _todoList.add(newTodo);
-    });
-  }
-
-  void removeTodo(Todo removedTodo) {
-    setState(() {
-      _todoList.remove(removedTodo);
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,50 +19,45 @@ class _TodoListState extends State<TodoList> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(10),
-        child: _todoList.isEmpty
-            ? const Center(
-                child: Text('No Todos to Show', style: TextStyle(fontSize: 18)))
-            : ListView.builder(
-                itemCount: _todoList.length,
-                itemBuilder: (ctx, i) => Dismissible(
-                  key: ValueKey(_todoList[i].id),
-                  onDismissed: (direction) {
-                    removeTodo(_todoList[i]);
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 10),
-                    child: Card(
-                      elevation: 2,
-                      color: const Color.fromARGB(255, 35, 40, 45),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 20, vertical: 16),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              _todoList[i].title,
-                              style: const TextStyle(
-                                  fontSize: 20, color: Colors.white),
-                            ),
-                            const SizedBox(height: 5),
-                            Text(
-                              _todoList[i].description,
-                              style: const TextStyle(
-                                  fontSize: 16, color: Colors.grey),
-                            ),
-                          ],
-                        ),
+        child:
+            //  _todoList.isEmpty
+            //     ? const Center(
+            //         child: Text('No Todos to Show', style: TextStyle(fontSize: 18)))
+            // :
+            Consumer<TodoNotifier>(
+          builder:
+              (BuildContext context, TodoNotifier notifier, Widget? child) {
+            List<String> todoList = notifier.getAllTodo();
+            return ListView.builder(
+              itemCount: todoList.length,
+              itemBuilder: (BuildContext context, int index) => Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10),
+                child: ListTile(
+                  title: Text(todoList[index].toString()),
+                  trailing: IconButton(
+                    onPressed: ()=> notifier.deleteTodo(index),
+                    icon: const Icon(Icons.delete_forever_outlined),
+                  ),
+                  leading: IconButton(
+                    onPressed: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const NewTodo(),
                       ),
                     ),
+                    icon: const Icon(Icons.edit_note_outlined),
                   ),
                 ),
               ),
+            );
+          },
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: const Color.fromARGB(255, 35, 40, 45),
         elevation: 1,
-        onPressed: addTodo,
+        onPressed: () => Navigator.push(
+            context, MaterialPageRoute(builder: (context) => const NewTodo())),
         child: const Icon(Icons.add),
       ),
     );
