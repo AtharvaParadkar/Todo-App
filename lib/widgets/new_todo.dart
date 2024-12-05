@@ -11,8 +11,8 @@ class NewTodo extends StatelessWidget {
 
   final String? todo;
   final int? index;
-  final formKey = GlobalKey<FormState>();
-  final titleController = TextEditingController();
+  final GlobalKey<FormState> formKey = GlobalKey();
+  final TextEditingController titleController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +36,8 @@ class NewTodo extends StatelessWidget {
                           const BorderSide(width: 2, color: Colors.blueAccent),
                       borderRadius: BorderRadius.circular(20)),
                   enabledBorder: const OutlineInputBorder(
-                    borderSide: BorderSide(width: 2, color: Color.fromARGB(255, 30, 30, 44)),
+                    borderSide: BorderSide(
+                        width: 2, color: Color.fromARGB(255, 30, 30, 44)),
                   ),
                   errorBorder: const OutlineInputBorder(
                     borderSide: BorderSide(width: 1, color: Colors.red),
