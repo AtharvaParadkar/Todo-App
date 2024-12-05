@@ -14,4 +14,9 @@ class TodoNotifier extends ChangeNotifier{
     _todoList.removeAt(index);
     notifyListeners();
   }
+
+  void editTodo(int index,String todo){
+    _todoList[index]=todo;
+    notifyListeners();
+  }
 }

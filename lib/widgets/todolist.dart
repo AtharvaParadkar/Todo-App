@@ -19,37 +19,51 @@ class _TodoListState extends State<TodoList> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(10),
-        child:
-            //  _todoList.isEmpty
-            //     ? const Center(
-            //         child: Text('No Todos to Show', style: TextStyle(fontSize: 18)))
-            // :
-            Consumer<TodoNotifier>(
+        child: Consumer<TodoNotifier>(
           builder:
               (BuildContext context, TodoNotifier notifier, Widget? child) {
             List<String> todoList = notifier.getAllTodo();
-            return ListView.builder(
-              itemCount: todoList.length,
-              itemBuilder: (BuildContext context, int index) => Padding(
-                padding: const EdgeInsets.symmetric(vertical: 10),
-                child: ListTile(
-                  title: Text(todoList[index].toString()),
-                  trailing: IconButton(
-                    onPressed: ()=> notifier.deleteTodo(index),
-                    icon: const Icon(Icons.delete_forever_outlined),
-                  ),
-                  leading: IconButton(
-                    onPressed: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const NewTodo(),
+            return todoList.isEmpty
+                ? const Center(
+                    child: Text('No Todos to Show',
+                        style: TextStyle(fontSize: 18)),
+                  )
+                : ListView.builder(
+                    itemCount: todoList.length,
+                    itemBuilder: (BuildContext context, int index) => Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      child: ListTile(
+                        title: Text(todoList[index].toString()),
+                        trailing: IconButton(
+                          onPressed: () {
+                            notifier.deleteTodo(index);
+                            const snack = SnackBar(
+                              content: Center(
+                                child: Text('Todo Deleted'),
+                              ),
+                              backgroundColor: Color.fromARGB(255, 255, 0, 0),
+                              shape: StadiumBorder(),
+                              duration: Duration(seconds: 3),
+                            );
+                            ScaffoldMessenger.of(context).showSnackBar(snack);
+                          },
+                          icon: const Icon(Icons.delete_forever_outlined),
+                        ),
+                        leading: IconButton(
+                          onPressed: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => NewTodo(
+                                todo: todoList.elementAt(index),
+                                index: index,
+                              ),
+                            ),
+                          ),
+                          icon: const Icon(Icons.edit_note_outlined),
+                        ),
                       ),
                     ),
-                    icon: const Icon(Icons.edit_note_outlined),
-                  ),
-                ),
-              ),
-            );
+                  );
           },
         ),
       ),
@@ -57,7 +71,7 @@ class _TodoListState extends State<TodoList> {
         backgroundColor: const Color.fromARGB(255, 35, 40, 45),
         elevation: 1,
         onPressed: () => Navigator.push(
-            context, MaterialPageRoute(builder: (context) => const NewTodo())),
+            context, MaterialPageRoute(builder: (context) => NewTodo())),
         child: const Icon(Icons.add),
       ),
     );
