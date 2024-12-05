@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_app/notifier/todo_notifier.dart';
-import 'package:todo_app/widgets/new_todo.dart';
+import 'package:todo_app/screens/new_todo.dart';
 
 class TodoList extends StatefulWidget {
   const TodoList({super.key});
