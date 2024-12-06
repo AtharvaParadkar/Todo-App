@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:todo_app/notifier/theme_notifier.dart';
 import 'package:todo_app/notifier/todo_notifier.dart';
 import 'package:todo_app/screens/new_todo.dart';
 
@@ -16,6 +17,12 @@ class _TodoListState extends State<TodoList> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Todo App'),
+        actions: [
+          IconButton(
+            onPressed: () => Provider.of<ThemeNotifier>(context,listen: false).setMode(),
+            icon: const Icon(Icons.brightness_6_rounded),
+          ),
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(10),
@@ -68,7 +75,6 @@ class _TodoListState extends State<TodoList> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        backgroundColor: const Color.fromARGB(255, 35, 40, 45),
         elevation: 1,
         onPressed: () => Navigator.push(
             context, MaterialPageRoute(builder: (context) => NewTodo())),
