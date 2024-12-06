@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:todo_app/notifier/filter_notifier.dart';
 import 'package:todo_app/notifier/theme_notifier.dart';
 import 'package:todo_app/notifier/todo_notifier.dart';
 import 'package:todo_app/theme/todo_theme.dart';
@@ -16,6 +17,7 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (_) => TodoNotifier()),
         ChangeNotifierProvider(create: (_) => ThemeNotifier()),
+        ChangeNotifierProvider(create: (_)=>FilterNotifier())
       ],
       child: Consumer(
         builder: (BuildContext context, ThemeNotifier notifier, Widget? child) {

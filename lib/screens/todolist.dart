@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:todo_app/notifier/filter_notifier.dart';
 import 'package:todo_app/notifier/theme_notifier.dart';
 import 'package:todo_app/notifier/todo_notifier.dart';
 import 'package:todo_app/screens/new_todo.dart';
@@ -19,17 +20,33 @@ class _TodoListState extends State<TodoList> {
         title: const Text('Todo App'),
         actions: [
           IconButton(
-            onPressed: () => Provider.of<ThemeNotifier>(context,listen: false).setMode(),
+            onPressed: () =>
+                Provider.of<ThemeNotifier>(context, listen: false).setMode(),
             icon: const Icon(Icons.brightness_6_rounded),
+          ),
+          PopupMenuButton(
+            onSelected: (String filter) {
+              Provider.of<FilterNotifier>(context, listen: false)
+                  .updateFilter(filter);
+            },
+            itemBuilder: (context) => ['All', 'Completed', 'Pending']
+                .map((filter) => PopupMenuItem<String>(
+                      value: filter,
+                      child: Text(filter),
+                    ))
+                .toList(),
+            icon: const Icon(Icons.filter_list),
           ),
         ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(10),
-        child: Consumer<TodoNotifier>(
-          builder:
-              (BuildContext context, TodoNotifier notifier, Widget? child) {
+        child: Consumer2<TodoNotifier, FilterNotifier>(
+          builder: (BuildContext context, TodoNotifier notifier,
+              FilterNotifier f, Widget? child) {
             List<String> todoList = notifier.getAllTodo();
+            if (f.filter == 'Completed') {
+            } else if (f.filter == 'Pending') {}
             return todoList.isEmpty
                 ? const Center(
                     child: Text('No Todos to Show',
