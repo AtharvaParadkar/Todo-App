@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
         builder: (BuildContext context, ThemeNotifier notifier, Widget? child) {
           return MaterialApp(
             debugShowCheckedModeBanner: false,
-            theme: notifier.getMode() ? TodoTheme.darkTheme : ThemeData.light(),
+            theme: notifier.getMode() ? TodoTheme.darkTheme : TodoTheme.lightTheme,
             home: const TodoList(),
           );
         },

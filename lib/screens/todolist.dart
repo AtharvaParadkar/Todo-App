@@ -18,24 +18,26 @@ class _TodoListState extends State<TodoList> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Todo App'),
+        leading: PopupMenuButton(
+          onSelected: (String filter) {
+            Provider.of<FilterNotifier>(context, listen: false)
+                .updateFilter(filter);
+          },
+          itemBuilder: (context) => ['All', 'Completed', 'Pending']
+              .map((filter) => PopupMenuItem<String>(
+                    value: filter,
+                    child: Text(filter),
+                  ))
+              .toList(),
+          icon: const Icon(Icons.filter_list),
+        ),
         actions: [
           IconButton(
             onPressed: () =>
                 Provider.of<ThemeNotifier>(context, listen: false).setMode(),
-            icon: const Icon(Icons.brightness_6_rounded),
-          ),
-          PopupMenuButton(
-            onSelected: (String filter) {
-              Provider.of<FilterNotifier>(context, listen: false)
-                  .updateFilter(filter);
-            },
-            itemBuilder: (context) => ['All', 'Completed', 'Pending']
-                .map((filter) => PopupMenuItem<String>(
-                      value: filter,
-                      child: Text(filter),
-                    ))
-                .toList(),
-            icon: const Icon(Icons.filter_list),
+            icon: Provider.of<ThemeNotifier>(context, listen: false).getMode()
+                ? const Icon(Icons.nightlight_round_sharp)
+                : const Icon(Icons.light_mode_rounded),
           ),
         ],
       ),
