@@ -4,7 +4,7 @@ import 'package:todo_app/notifier/filter_notifier.dart';
 import 'package:todo_app/notifier/theme_notifier.dart';
 import 'package:todo_app/notifier/todo_notifier.dart';
 import 'package:todo_app/theme/todo_theme.dart';
-import 'package:todo_app/screens/todolist.dart';
+import 'package:todo_app/router/app_route_config.dart';
 
 void main() => runApp(const MyApp());
 
@@ -21,10 +21,10 @@ class MyApp extends StatelessWidget {
       ],
       child: Consumer(
         builder: (BuildContext context, ThemeNotifier notifier, Widget? child) {
-          return MaterialApp(
+          return MaterialApp.router(
             debugShowCheckedModeBanner: false,
             theme: notifier.getMode() ? TodoTheme.darkTheme : TodoTheme.lightTheme,
-            home: const TodoList(),
+            routerConfig: MyRouter().router,
           );
         },
       ),

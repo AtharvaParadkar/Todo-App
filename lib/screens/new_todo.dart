@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_app/notifier/todo_notifier.dart';
+import 'package:todo_app/router/app_router_constants.dart';
 
 class NewTodo extends StatelessWidget {
   NewTodo({super.key, this.todo, this.index}) {
@@ -63,7 +65,7 @@ class NewTodo extends StatelessWidget {
                       Provider.of<TodoNotifier>(context, listen: false)
                           .editTodo(index!, titleController.text);
                     }
-                    Navigator.pop(context);
+                    context.goNamed(TodoAppRouteConstants.todoListRoute);
                   }
                 },
                 child: const Text('Add Item'),

@@ -3,7 +3,8 @@ import 'package:provider/provider.dart';
 import 'package:todo_app/notifier/filter_notifier.dart';
 import 'package:todo_app/notifier/theme_notifier.dart';
 import 'package:todo_app/notifier/todo_notifier.dart';
-import 'package:todo_app/screens/new_todo.dart';
+import 'package:go_router/go_router.dart';
+import 'package:todo_app/router/app_router_constants.dart';
 
 class TodoList extends StatefulWidget {
   const TodoList({super.key});
@@ -36,8 +37,8 @@ class _TodoListState extends State<TodoList> {
             onPressed: () =>
                 Provider.of<ThemeNotifier>(context, listen: false).setMode(),
             icon: Provider.of<ThemeNotifier>(context, listen: false).getMode()
-                ? const Icon(Icons.nightlight_round_sharp)
-                : const Icon(Icons.light_mode_rounded),
+                ? const Icon(Icons.light_mode_rounded)
+                : const Icon(Icons.nightlight_round_sharp),
           ),
         ],
       ),
@@ -76,14 +77,12 @@ class _TodoListState extends State<TodoList> {
                           icon: const Icon(Icons.delete_forever_outlined),
                         ),
                         leading: IconButton(
-                          onPressed: () => Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => NewTodo(
-                                todo: todoList.elementAt(index),
-                                index: index,
-                              ),
-                            ),
+                          onPressed: () => context.goNamed(
+                            TodoAppRouteConstants.newTodoRoute,
+                            queryParameters: {
+                              'todo': todoList.elementAt(index),
+                              'index': index.toString()
+                            },
                           ),
                           icon: const Icon(Icons.edit_note_outlined),
                         ),
@@ -95,8 +94,7 @@ class _TodoListState extends State<TodoList> {
       ),
       floatingActionButton: FloatingActionButton(
         elevation: 1,
-        onPressed: () => Navigator.push(
-            context, MaterialPageRoute(builder: (context) => NewTodo())),
+        onPressed: () => context.goNamed(TodoAppRouteConstants.newTodoRoute),
         child: const Icon(Icons.add),
       ),
     );
